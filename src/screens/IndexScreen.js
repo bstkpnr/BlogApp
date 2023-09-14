@@ -2,16 +2,17 @@ import { StyleSheet, Text, View, Button, FlatList,TouchableOpacity } from "react
 import React, { useContext } from "react";
 import { Context } from "../context/BlogContext";
 import { Entypo } from '@expo/vector-icons';
-export default function IndexScreen() {
+export default function IndexScreen({navigation}) {
   const { state, addBlogPost ,handleDelete} = useContext(Context);
   return (
     <View>
-      <Button onPress={addBlogPost} title="Ekle" />
       <FlatList
         data={state}
         keyExtractor={(blogpost) => blogpost.id}
         renderItem={({ item }) => {
           return (
+            <TouchableOpacity onPress={()=>navigation.navigate('ShowBlog',{id:item.id})}>
+
             <View style={styles.row}>
               <Text style={styles.title}>{item.title}</Text>
               <TouchableOpacity onPress={()=>handleDelete(item.id)}>
@@ -19,6 +20,7 @@ export default function IndexScreen() {
               <Entypo name="trash" size={24} color="black" />
               </TouchableOpacity>
             </View>
+            </TouchableOpacity>
           );
         }}
       />
