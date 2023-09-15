@@ -8,6 +8,7 @@ import { TouchableOpacity } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import EditScreen from "./src/screens/EditScreen";
 import { FontAwesome } from "@expo/vector-icons";
+import LoginScreen from "./src/screens/LoginScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -16,6 +17,8 @@ export default function App({ navigation }) {
     <Provider>
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerTitle: "BlogApp" }}>
+          <Stack.Screen name="Login" component={LoginScreen} />
+
           <Stack.Screen
             name="Home"
             component={IndexScreen}
@@ -33,9 +36,13 @@ export default function App({ navigation }) {
           <Stack.Screen
             name="ShowBlog"
             component={ShowScreen}
-            options={({ navigation,route }) => ({
+            options={({ navigation, route }) => ({
               headerRight: () => (
-                <TouchableOpacity onPress={() => navigation.navigate("Edit",{id:route.params.id})}>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate("Edit", { id: route.params.id })
+                  }
+                >
                   <FontAwesome name="edit" size={24} color="black" />
                 </TouchableOpacity>
               ),
