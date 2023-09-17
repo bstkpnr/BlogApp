@@ -7,10 +7,20 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React, { useState } from "react";
-
+import { auth } from "../../firebase";
 export default function LoginScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const handleSignUp = () => {
+    auth
+      .createUserWithEmailAndPassword(email, password)
+      .then((userCredentials) => {
+        const user = userCredentials.user;
+        console.log("Kullanıcı", user.email);
+      })
+      .catch((error) => console.log(error.message));
+  };
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding">
       <View style={styles.inputContainer}>
@@ -19,6 +29,7 @@ export default function LoginScreen() {
           placeholder="Email"
           value={email}
           onChangeText={(e) => setEmail(e)}
+          keyboardType="email-address"
         />
         <TextInput
           style={styles.input}
@@ -32,7 +43,10 @@ export default function LoginScreen() {
         <TouchableOpacity style={styles.button}>
           <Text style={styles.label}>Giriş Yap</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.button, styles.outlineButton]}>
+        <TouchableOpacity
+          style={[styles.button, styles.outlineButton]}
+          onPress={handleSignUp}
+        >
           <Text style={styles.outlineLabel}>Kayıt Ol</Text>
         </TouchableOpacity>
       </View>
