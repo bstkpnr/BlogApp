@@ -9,6 +9,7 @@ import { AntDesign } from "@expo/vector-icons";
 import EditScreen from "./src/screens/EditScreen";
 import { FontAwesome } from "@expo/vector-icons";
 import LoginScreen from "./src/screens/LoginScreen";
+import MainScreen from "./src/screens/MainScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -17,8 +18,9 @@ export default function App({ navigation }) {
     <Provider>
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerTitle: "BlogApp" }}>
-          <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="Main" component={MainScreen} />
 
+          <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen
             name="Home"
             component={IndexScreen}
