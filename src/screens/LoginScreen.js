@@ -9,10 +9,13 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import jsonServer from "../../api/jsonServer";
+import CustomButton from "../components/CustomButton";
+import CustomInput from "../components/CustomInput";
 
 export default function LoginScreen({ navigation }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+const [email,setEmail]=useState('')
+const [password,setPassword]=useState('')
+const [errors,setErrors]=useState({})
   const [loading, setLoading] = useState(false);
 
   const signIn = async () => {
@@ -53,38 +56,30 @@ export default function LoginScreen({ navigation }) {
       console.error("Kayıt sırasında hata", error.message);
     }
   };
-
+  
+  const handleError = (errorMessage, email,password) => {
+    setErrors(prevState => ({...prevState, email,password}));
+  };
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding">
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Email"
-          value={email}
-          onChangeText={(e) => setEmail(e)}
-          keyboardType="email-address"
-        />
-        <TextInput
-          style={styles.input}
+      <View style={{width:'80%'}}>
+       <CustomInput value={email} placeholder='Mail adresi giriniz' label={'Email'} error={errors.email} onFocus={()=>handleError(email)} onChangeText={(e)=>setEmail(e)} />
+        <CustomInput
+        label={'Şifre'}
+        password
+        error={errors.email}
           placeholder="Şifre"
-          secureTextEntry
           value={password}
-          onChange={(e) => setPassword(e)}
-        />
+          onFocus={()=>handleError(password)}
+          onChangeText={(e) => setPassword(e)}
+        /> 
       </View>
       {loading ? (
         <ActivityIndicator size={"large"} color={"#0000ff"} />
       ) : (
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button} onPress={signIn}>
-            <Text style={styles.label}>Giriş Yap</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.button, styles.outlineButton]}
-            onPress={signUp}
-          >
-            <Text style={styles.outlineLabel}>Kayıt Ol</Text>
-          </TouchableOpacity>
+          <CustomButton onPress={signIn} title={'Giriş Yap'} />
+          <CustomButton onPress={signUp} title={'Kayıt Ol'} style={styles.outlineButton} textStyle={styles.outlineLabel} />
         </View>
       )}
     </KeyboardAvoidingView>
@@ -97,30 +92,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  inputContainer: {
-    width: "80%",
-  },
-  input: {
-    backgroundColor: "white",
-    paddingHorizontal: 15,
-    paddingVertical: 15,
-    marginTop: 8,
-    borderRadius: 8,
-  },
+
   buttonContainer: {
     width: "60%",
     marginTop: 40,
-  },
-  button: {
-    padding: 15,
-    backgroundColor: "#98EECC",
-    alignItems: "center",
-    borderRadius: 8,
-  },
-  label: {
-    color: "white",
-    fontSize: 18,
-    fontWeight: "700",
   },
   outlineButton: {
     backgroundColor: "white",
