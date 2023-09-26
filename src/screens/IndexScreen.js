@@ -9,9 +9,10 @@ import {
 import React, { useContext, useEffect } from "react";
 import { Context } from "../context/BlogContext";
 import { Entypo } from "@expo/vector-icons";
-export default function IndexScreen({ navigation }) {
+import HomeCard from "../components/HomeCard";
+export default function IndexScreen({ navigation, route }) {
   const { state, handleDelete, getBlogPosts } = useContext(Context);
-
+const {user}=route.params;
   useEffect(() => {
     getBlogPosts();
     const listener = navigation.addListener("focus", () => {
@@ -21,27 +22,31 @@ export default function IndexScreen({ navigation }) {
       listener.remove();
     };
   }, []);
+
   return (
-    <View>
-      <FlatList
-        data={state}
-        keyExtractor={(blogpost) => blogpost.id}
-        renderItem={({ item }) => {
-          return (
-            <TouchableOpacity
-              onPress={() => navigation.navigate("ShowBlog", { id: item.id })}
-            >
-              <View style={styles.row}>
-                <Text style={styles.title}>{item.title}</Text>
-                <TouchableOpacity onPress={() => handleDelete(item.id)}>
-                  <Entypo name="trash" size={24} color="black" />
-                </TouchableOpacity>
-              </View>
-            </TouchableOpacity>
-          );
-        }}
-      />
-    </View>
+    <>
+    <HomeCard user={user} />
+      <View style={styles.container}>
+        <FlatList
+          data={state}
+          keyExtractor={(blogpost) => blogpost.id}
+          renderItem={({ item }) => {
+            return (
+              <TouchableOpacity
+                onPress={() => navigation.navigate("ShowBlog", { id: item.id })}
+              >
+                <View style={styles.row}>
+                  <Text style={styles.title}>{item.title}</Text>
+                  <TouchableOpacity onPress={() => handleDelete(item.id)}>
+                    <Entypo name="trash" size={24} color="black" />
+                  </TouchableOpacity>
+                </View>
+              </TouchableOpacity>
+            );
+          }}
+        />
+      </View>
+    </>
   );
 }
 
@@ -57,4 +62,8 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
   },
+  container:{
+    backgroundColor:'white',
+    flex:1
+  }
 });

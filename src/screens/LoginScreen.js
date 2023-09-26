@@ -16,7 +16,8 @@ export default function LoginScreen({ navigation }) {
 const [email,setEmail]=useState('')
 const [password,setPassword]=useState('')
 const [errors,setErrors]=useState({})
-  const [loading, setLoading] = useState(false);
+const [loading, setLoading] = useState(false);
+const [username, setUsername]=useState('')
 
   const signIn = async () => {
     try {
@@ -28,34 +29,15 @@ const [errors,setErrors]=useState({})
         console.error("Hatalı e-posta adresi veya şifre.");
         return;
       }
-      navigation.navigate("Home");
+      const user = response.data[0];
+      navigation.navigate("Home",{user});
       console.log("Giriş başarılı:", response.data[0]);
     } catch (error) {
       console.error("Giriş sırasında hata", error.message);
     }
   };
 
-  const signUp = async () => {
-    try {
-      const existingUserResponse = await jsonServer.get("/users", {
-        params: { email },
-      });
-
-      if (existingUserResponse.data.length > 0) {
-        console.error("Bu e-posta adresiyle zaten bir kullanıcı mevcut.");
-        return;
-      }
-      const response = await jsonServer.post("/users", {
-        email,
-        password,
-      });
-      signIn();
-
-      console.log("Kullanıcı başarıyla kaydedildi:", response.data);
-    } catch (error) {
-      console.error("Kayıt sırasında hata", error.message);
-    }
-  };
+ 
   
   const handleError = (errorMessage, email,password) => {
     setErrors(prevState => ({...prevState, email,password}));
@@ -79,9 +61,10 @@ const [errors,setErrors]=useState({})
       ) : (
         <View style={styles.buttonContainer}>
           <CustomButton onPress={signIn} title={'Giriş Yap'} />
-          <CustomButton onPress={signUp} title={'Kayıt Ol'} style={styles.outlineButton} textStyle={styles.outlineLabel} />
-        </View>
-      )}
+          <TouchableOpacity onPress={() => navigation.navigate("Register")}>
+            <Text style={styles.outlineLabel}>Kayıt Ol</Text>
+          </TouchableOpacity>
+        </View>)}
     </KeyboardAvoidingView>
   );
 }
@@ -93,17 +76,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 
-  buttonContainer: {
-    width: "60%",
-    marginTop: 40,
-  },
-  outlineButton: {
-    backgroundColor: "white",
-    marginTop: 5,
-  },
   outlineLabel: {
-    color: "#98EECC",
-    fontSize: 18,
+    color: "grey",
+    fontSize: 16,
     fontWeight: "700",
+    textAlign:'center',
+    marginTop:5,
+
   },
 });

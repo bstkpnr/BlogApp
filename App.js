@@ -10,6 +10,7 @@ import EditScreen from "./src/screens/EditScreen";
 import { FontAwesome } from "@expo/vector-icons";
 import LoginScreen from "./src/screens/LoginScreen";
 import MainScreen from "./src/screens/MainScreen";
+import RegisterScreen from "./src/screens/RegisterScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -21,6 +22,7 @@ export default function App({ navigation }) {
         <Stack.Screen name="Main" component={MainScreen} />
 
           <Stack.Screen name="Login" component={LoginScreen} />
+          <Stack.Screen name="Register" component={RegisterScreen} />
           <Stack.Screen
             name="Home"
             component={IndexScreen}
