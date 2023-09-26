@@ -15,7 +15,7 @@ import BlogCard from "../components/BlogCard";
 
 export default function IndexScreen({ navigation, route }) {
   const { state, handleDelete, getBlogPosts } = useContext(Context);
-  const { user } = route.params;
+  const { user = {} } = route.params || {};
   useEffect(() => {
     getBlogPosts();
     const listener = navigation.addListener("focus", () => {
