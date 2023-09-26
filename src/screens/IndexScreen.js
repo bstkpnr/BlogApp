@@ -5,14 +5,17 @@ import {
   Button,
   FlatList,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import React, { useContext, useEffect } from "react";
 import { Context } from "../context/BlogContext";
 import { Entypo } from "@expo/vector-icons";
 import HomeCard from "../components/HomeCard";
+import BlogCard from "../components/BlogCard";
+
 export default function IndexScreen({ navigation, route }) {
   const { state, handleDelete, getBlogPosts } = useContext(Context);
-const {user}=route.params;
+  const { user } = route.params;
   useEffect(() => {
     getBlogPosts();
     const listener = navigation.addListener("focus", () => {
@@ -24,29 +27,22 @@ const {user}=route.params;
   }, []);
 
   return (
-    <>
-    <HomeCard user={user} />
-      <View style={styles.container}>
+    <ScrollView style={styles.container}>
+      <HomeCard user={user} />
+      <View >
         <FlatList
+        numColumns={2}
           data={state}
           keyExtractor={(blogpost) => blogpost.id}
           renderItem={({ item }) => {
             return (
-              <TouchableOpacity
-                onPress={() => navigation.navigate("ShowBlog", { id: item.id })}
-              >
-                <View style={styles.row}>
-                  <Text style={styles.title}>{item.title}</Text>
-                  <TouchableOpacity onPress={() => handleDelete(item.id)}>
-                    <Entypo name="trash" size={24} color="black" />
-                  </TouchableOpacity>
-                </View>
-              </TouchableOpacity>
+              <BlogCard title={item.title} content={item.content} onDelete={()=>handleDelete(item.id)}   onCardPress={() => navigation.navigate("ShowBlog", { id: item.id })}
+              />
             );
           }}
         />
       </View>
-    </>
+    </ScrollView>
   );
 }
 
@@ -62,8 +58,8 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
   },
-  container:{
-    backgroundColor:'white',
-    flex:1
-  }
+  container: {
+    backgroundColor: "white",
+    flex: 1,
+  },
 });

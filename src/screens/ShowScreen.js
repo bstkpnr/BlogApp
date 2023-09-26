@@ -10,12 +10,7 @@ export default function ShowScreen({ route }) {
   return (
     <View style={styles.mainContainer}>
       <View style={styles.container}>
-        <Text style={styles.label}>Başlık</Text>
-        <Text style={styles.content}>{blogPost.title}</Text>
-      </View>
-      <View style={styles.container}>
-        <Text style={styles.label}>İçerik</Text>
-
+        <Text style={styles.label}>{blogPost.title}</Text>
         <Text style={styles.content}>{blogPost.content}</Text>
       </View>
     </View>
@@ -25,19 +20,23 @@ export default function ShowScreen({ route }) {
 const styles = StyleSheet.create({
   mainContainer: {
     alignItems: "center",
-    marginTop: 10,
+    backgroundColor:'#ffffff',
+    flex:1
   },
   container: {
-    borderWidth: 1,
-    marginBottom: 10,
-    borderRadius: 10,
+    marginTop: 10,
     alignItems: "center",
     width: "90%",
+    padding:5
   },
   label: {
     fontSize: 25,
+    
+    
   },
   content: {
     fontSize: 20,
+    color:'#7D7C7C',
+    top:10
   },
 });

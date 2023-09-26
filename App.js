@@ -18,7 +18,7 @@ export default function App({ navigation }) {
   return (
     <Provider>
       <NavigationContainer>
-        <Stack.Navigator screenOptions={{ headerTitle: "BlogApp" }}>
+        <Stack.Navigator screenOptions={{ headerTitle: "Bestlog" }}>
         <Stack.Screen name="Main" component={MainScreen} />
 
           <Stack.Screen name="Login" component={LoginScreen} />
