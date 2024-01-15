@@ -48,8 +48,9 @@ export default CustomInput;
 const styles = StyleSheet.create({
   label: {
     marginVertical: 5,
-    fontSize: 14,
-    color: "gray",
+    fontSize: 16,
+    color: "white",
+    fontWeight:'600'
   },
  
   input: {
